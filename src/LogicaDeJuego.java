@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class LogicaDeJuego {
@@ -7,6 +8,8 @@ public class LogicaDeJuego {
     private int [] defensores;
     private int N;
     private int result;
+    private int cercano = 100;
+    private int mascercano;
 
     public LogicaDeJuego(){
         dictarCiudadesInvadidas();
@@ -27,9 +30,31 @@ public class LogicaDeJuego {
             defensores[i] = Scanner.nextInt();
         }
     }
-    public void ordenarArreglos(){
+    public void ordenarInvasores(){
         Arrays.sort(invasores);
+        int i = 0;
+        int j = invasores.length - 1;
+        int tmp;
+        while (j > i) {
+            tmp = invasores[j];
+            invasores[j] = invasores[i];
+            invasores[i] = tmp;
+            j--;
+            i++;
+        }
+    }
+    public void ordenarDefensores(){
         Arrays.sort(defensores);
+        int i = 0;
+        int j = defensores.length - 1;
+        int tmp;
+        while (j > i) {
+            tmp = defensores[j];
+            defensores[j] = defensores[i];
+            defensores[i] = tmp;
+            j--;
+            i++;
+        }
     }
     public void mostrarResultadoDeTropas(){
         System.out.println("Invasores:");
@@ -53,9 +78,11 @@ public class LogicaDeJuego {
     }**/
     public void comprobarVictoria(){
         for (int i=0;i<N;i++){
-            for (int j=0;j<N;j++){
-                if(defensores[i]>=invasores[j]){
+            for (int j=0;j<N;j++) {
+                if(defensores[i]>=invasores[j] && j != cercano){
                     result++;
+                    cercano=j;
+                    j=N;
                 }
             }
         }
@@ -63,3 +90,10 @@ public class LogicaDeJuego {
         System.out.println("Se realizaron "+result+" defensas con éxito.");
     }
 }
+/**
+ if(defensores[i] > invasores[i] && invasores[i]!= mascercano) {
+ if (cercano <invasores[i]){
+ cercano = invasores[i];
+ mascercano = i;
+ result++;
+ }**/
